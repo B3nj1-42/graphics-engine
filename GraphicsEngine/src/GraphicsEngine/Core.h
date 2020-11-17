@@ -5,7 +5,7 @@
 		#define GRAPHICS_ENGINE_API __declspec(dllexport)
 	#else
 		#define GRAPHICS_ENGINE_API __declspec(dllimport)
-	#endif
+	#endif // GE_BUILD_DLL
 #else
 	#error The Graphics Engine only supports Windows!
-#endif
+#endif // GE_PLATFORM_WINDOWS
