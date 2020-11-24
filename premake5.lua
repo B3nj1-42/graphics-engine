@@ -18,6 +18,9 @@ project "GraphicsEngine"
 	targetdir ("bin/" .. outputdir .. "/%{prj.name}")
 	objdir ("bin-int/" .. outputdir .. "/%{prj.name}")
 
+	pchheader "gepch.h"
+	pchsource "GraphicsEngine/src/gepch.cpp"
+
 	files
 	{
 		"%{prj.name}/src/**.h",
@@ -26,7 +29,7 @@ project "GraphicsEngine"
 
 	includedirs 
 	{
-		"%{prj.name}/src"
+		"%{prj.name}/src",
 		"%{prj.name}/vendor/spdlog/include"
 	}
 

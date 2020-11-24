@@ -4,6 +4,9 @@
     <Filter Include="GraphicsEngine">
       <UniqueIdentifier>{AC8E76BE-985C-6AC4-81F0-DAEA6D5D4629}</UniqueIdentifier>
     </Filter>
+    <Filter Include="GraphicsEngine\Events">
+      <UniqueIdentifier>{10817B29-7CED-3624-45E1-CE81B10C598C}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\GraphicsEngine.h" />
@@ -16,13 +19,22 @@
     <ClInclude Include="src\GraphicsEngine\EntryPoint.h">
       <Filter>GraphicsEngine</Filter>
     </ClInclude>
+    <ClInclude Include="src\GraphicsEngine\Events\ApplicationEvent.h">
+      <Filter>GraphicsEngine\Events</Filter>
+    </ClInclude>
+    <ClInclude Include="src\GraphicsEngine\Events\Event.h">
+      <Filter>GraphicsEngine\Events</Filter>
+    </ClInclude>
+    <ClInclude Include="src\GraphicsEngine\Events\KeyEvent.h">
+      <Filter>GraphicsEngine\Events</Filter>
+    </ClInclude>
+    <ClInclude Include="src\GraphicsEngine\Events\MouseEvent.h">
+      <Filter>GraphicsEngine\Events</Filter>
+    </ClInclude>
     <ClInclude Include="src\GraphicsEngine\Log.h">
       <Filter>GraphicsEngine</Filter>
     </ClInclude>
-    <ClInclude Include="src\GraphicsEngine\Events\Event.h" />
-    <ClInclude Include="src\GraphicsEngine\Events\ApplicationEvent.h" />
-    <ClInclude Include="src\GraphicsEngine\Events\KeyEvent.h" />
-    <ClInclude Include="src\GraphicsEngine\Events\MouseEvent.h" />
+    <ClInclude Include="src\gepch.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\GraphicsEngine\Application.cpp">
@@ -31,5 +43,6 @@
     <ClCompile Include="src\GraphicsEngine\Log.cpp">
       <Filter>GraphicsEngine</Filter>
     </ClCompile>
+    <ClCompile Include="src\gepch.cpp" />
   </ItemGroup>
 </Project>

@@ -2,8 +2,6 @@
 
 #include "Event.h"
 
-#include <sstream>
-
 namespace GraphicsEngine {
 
 	class GRAPHICS_ENGINE_API KeyEvent : public Event

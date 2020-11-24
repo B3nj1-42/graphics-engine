@@ -2,9 +2,6 @@
 
 #include "GraphicsEngine/Core.h"
 
-#include <string>
-#include <functional>
-
 namespace GraphicsEngine {
 
 	// Events in the GraphicsEngine are currently blocking, meaning when an event occurs 
