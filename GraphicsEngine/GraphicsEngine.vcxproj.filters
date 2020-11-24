@@ -19,6 +19,10 @@
     <ClInclude Include="src\GraphicsEngine\Log.h">
       <Filter>GraphicsEngine</Filter>
     </ClInclude>
+    <ClInclude Include="src\GraphicsEngine\Events\Event.h" />
+    <ClInclude Include="src\GraphicsEngine\Events\ApplicationEvent.h" />
+    <ClInclude Include="src\GraphicsEngine\Events\KeyEvent.h" />
+    <ClInclude Include="src\GraphicsEngine\Events\MouseEvent.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\GraphicsEngine\Application.cpp">
