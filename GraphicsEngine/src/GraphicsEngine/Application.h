@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Core.h"
+#include <GraphicsEngine\Window.h>
 
 
 namespace GraphicsEngine {
@@ -12,6 +13,10 @@ namespace GraphicsEngine {
 		virtual ~Application();
 
 		void Run();
+
+	private:
+		std::unique_ptr<Window> m_Window;
+		bool m_Running = true;
 	};
 
 	// To be defined in CLIENT

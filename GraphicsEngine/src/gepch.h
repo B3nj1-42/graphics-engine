@@ -14,6 +14,7 @@
 #include <unordered_map>
 #include <unordered_set>
 
+#include "GraphicsEngine/Log.h"
 
 #ifdef GE_PLATFORM_WIDOWS
 	#include <Windows.h>
