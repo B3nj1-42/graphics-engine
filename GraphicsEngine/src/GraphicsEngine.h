@@ -3,6 +3,7 @@
 // For use by GraphicsEngine applications
 
 #include "GraphicsEngine/Application.h"
+#include "GraphicsEngine/Layer.h"
 #include "GraphicsEngine/Log.h"
 
 // --- Entry Point -------------------
