@@ -1,7 +1,10 @@
 #pragma once
 
 #include "Core.h"
-#include <GraphicsEngine\Window.h>
+#include "Events/Event.h"
+#include "GraphicsEngine/Events/ApplicationEvent.h"
+
+#include "Window.h"
 
 
 namespace GraphicsEngine {
@@ -13,6 +16,11 @@ namespace GraphicsEngine {
 		virtual ~Application();
 
 		void Run();
+
+		void OnEvent(Event& event);
+
+	private:
+		bool OnWindowClosed(WindowCloseEvent& event);
 
 	private:
 		std::unique_ptr<Window> m_Window;

@@ -1,5 +1,6 @@
 #pragma once
 
+#include "gepch.h"
 #include "GraphicsEngine/Core.h"
 
 namespace GraphicsEngine {
