@@ -6,6 +6,8 @@
 #include "GraphicsEngine/Layer.h"
 #include "GraphicsEngine/Log.h"
 
+#include "GraphicsEngine/ImGui/ImGuiLayer.h"
+
 // --- Entry Point -------------------
 #include "GraphicsEngine/EntryPoint.h"
 // -----------------------------------

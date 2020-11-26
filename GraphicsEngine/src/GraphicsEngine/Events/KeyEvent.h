@@ -54,4 +54,20 @@ namespace GraphicsEngine {
 
 		EVENT_CLASS_TYPE(KeyReleased)
 	};
+
+	class GRAPHICS_ENGINE_API KeyTypedEvent : public KeyEvent
+	{
+	public:
+		KeyTypedEvent(int keycode)
+			: KeyEvent(keycode) {}
+
+		std::string ToString() const override
+		{
+			std::stringstream stream;
+			stream << "KeyTypedEvent: " << m_KeyCode;
+			return stream.str();
+		}
+
+		EVENT_CLASS_TYPE(KeyTyped)
+	};
 }
