@@ -67,6 +67,8 @@
     <ClInclude Include="src\gepch.h" />
     <ClInclude Include="src\GraphicsEngine\Input.h" />
     <ClInclude Include="src\Platform\Windows\WindowsInput.h" />
+    <ClInclude Include="src\GraphicsEngine\KeyCodes.h" />
+    <ClInclude Include="src\GraphicsEngine\MouseButtonCodes.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\GraphicsEngine\Application.cpp">
@@ -92,5 +94,8 @@
     </ClCompile>
     <ClCompile Include="src\gepch.cpp" />
     <ClCompile Include="src\Platform\Windows\WindowsInput.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="cpp.hint" />
   </ItemGroup>
 </Project>

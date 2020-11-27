@@ -6,6 +6,11 @@
 #include "GraphicsEngine/Layer.h"
 #include "GraphicsEngine/Log.h"
 
+#include "GraphicsEngine/Input.h"
+#include "GraphicsEngine/KeyCodes.h"
+#include "GraphicsEngine/MouseButtonCodes.h"
+
+
 #include "GraphicsEngine/ImGui/ImGuiLayer.h"
 
 // --- Entry Point -------------------

@@ -159,9 +159,11 @@
     <ClInclude Include="src\GraphicsEngine\Events\MouseEvent.h" />
     <ClInclude Include="src\GraphicsEngine\ImGui\ImGuiLayer.h" />
     <ClInclude Include="src\GraphicsEngine\Input.h" />
+    <ClInclude Include="src\GraphicsEngine\KeyCodes.h" />
     <ClInclude Include="src\GraphicsEngine\Layer.h" />
     <ClInclude Include="src\GraphicsEngine\LayerStack.h" />
     <ClInclude Include="src\GraphicsEngine\Log.h" />
+    <ClInclude Include="src\GraphicsEngine\MouseButtonCodes.h" />
     <ClInclude Include="src\GraphicsEngine\Window.h" />
     <ClInclude Include="src\Platform\OpenGL\ImGuiOpenGLRenderer.h" />
     <ClInclude Include="src\Platform\Windows\WindowsInput.h" />
@@ -191,6 +193,9 @@
     <ProjectReference Include="vendor\imgui\ImGui.vcxproj">
       <Project>{C0FF640D-2C14-8DBE-F595-301E616989EF}</Project>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="cpp.hint" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
