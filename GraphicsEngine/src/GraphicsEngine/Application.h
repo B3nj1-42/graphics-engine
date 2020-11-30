@@ -7,7 +7,7 @@
 #include "GraphicsEngine/Events/Event.h"
 #include "GraphicsEngine/Events/ApplicationEvent.h"
 
-
+#include "GraphicsEngine/ImGui/ImGuiLayer.h"
 
 namespace GraphicsEngine {
 
@@ -32,6 +32,7 @@ namespace GraphicsEngine {
 		bool OnWindowClosed(WindowCloseEvent& event);
 
 		std::unique_ptr<Window> m_Window;
+		ImGuiLayer* m_ImGuiLayer;
 		bool m_Running = true;
 		LayerStack m_LayerStack;
 

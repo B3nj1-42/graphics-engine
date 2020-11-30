@@ -1,5 +1,7 @@
 #include <GraphicsEngine.h>
 
+#include "imgui/imgui.h"
+
 class ExampleLayer : public GraphicsEngine::Layer
 {
 public:
@@ -13,12 +15,19 @@ public:
 			GE_TRACE("Tab key is pressed!");
 	}
 
+	virtual void OnImGuiRender() override
+	{
+		/*ImGui::Begin("Test");
+		ImGui::Text("Hello World");
+		ImGui::End();*/
+	}
+
 	void OnEvent(GraphicsEngine::Event& event) override
 	{
 		if (event.GetEventType() == GraphicsEngine::EventType::KeyPressed)
 		{
 			GraphicsEngine::KeyPressedEvent& e = (GraphicsEngine::KeyPressedEvent&)event;
-				GE_TRACE("{0}", (char)e.GetKeyCode);
+				GE_TRACE("{0}", (char)e.GetKeyCode());
 		}
 	}
 };
@@ -29,7 +38,6 @@ public:
 	Sandbox()
 	{
 		PushLayer(new ExampleLayer());
-		PushOverlay(new GraphicsEngine::ImGuiLayer());
 	}
 
 	~Sandbox()

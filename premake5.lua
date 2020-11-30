@@ -110,6 +110,7 @@ project "Sandbox"
 	{
 		"GraphicsEngine/vendor/spdlog/include",
 		"GraphicsEngine/src",
+		"GraphicsEngine/vendor",
 		"%{IncludeDir.glm}"
 	}
 
