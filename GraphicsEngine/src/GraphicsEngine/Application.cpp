@@ -42,6 +42,36 @@ namespace GraphicsEngine {
 
 		unsigned int indices[3] = { 0, 1, 2 };
 		glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), indices, GL_STATIC_DRAW);
+
+		std::string vertexSource = R"(
+			#version 330 core
+
+			layout(location = 0) in vec3 a_Position;
+
+			out vec3 v_Position;
+
+			void main()
+			{
+				v_Position = a_Position;
+				gl_Position = vec4(a_Position, 1.0);
+			}
+		)";
+
+		std::string fragmentSource = R"(
+			#version 330 core
+
+			layout(location = 0) out vec4 color;
+
+			in vec3 v_Position;
+
+			void main()
+			{
+				color = vec4(v_Position + 0.5, 1.0);
+			}
+
+		)";
+
+		m_Shader.reset(new Shader(vertexSource, fragmentSource));
 	}
 
 	Application::~Application()
@@ -65,8 +95,6 @@ namespace GraphicsEngine {
 		EventDispatcher dispatcher(event);
 		dispatcher.Dispatch<WindowCloseEvent>(BIND_EVENT_FN(OnWindowClosed));
 
-		GE_CORE_TRACE("{0}", event.ToString());
-
 		for (auto iterator = m_LayerStack.end(); iterator != m_LayerStack.begin(); )
 		{
 			(*--iterator)->OnEvent(event);
@@ -79,9 +107,10 @@ namespace GraphicsEngine {
 	{
 		while (m_Running)
 		{
-			glClearColor(0.2f, 0.4f, 0.8f, 1.0f);
+			glClearColor(0.2f, 0.2f, 0.2f, 1.0f);
 			glClear(GL_COLOR_BUFFER_BIT);
 
+			m_Shader->Bind();
 			glBindVertexArray(m_VertexArray);
 			glDrawElements(GL_TRIANGLES, 3, GL_UNSIGNED_INT, nullptr);
 

@@ -9,6 +9,8 @@
 
 #include "GraphicsEngine/ImGui/ImGuiLayer.h"
 
+#include "GraphicsEngine/Renderer/Shader.h"
+
 namespace GraphicsEngine {
 
 	class GRAPHICS_ENGINE_API Application
@@ -37,6 +39,7 @@ namespace GraphicsEngine {
 		LayerStack m_LayerStack;
 
 		unsigned int m_VertexArray, m_VertexBuffer, m_IndexBuffer;
+		std::unique_ptr<Shader> m_Shader;
 
 	private:
 		static Application* s_Instance;
