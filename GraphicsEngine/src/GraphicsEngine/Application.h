@@ -9,14 +9,9 @@
 
 #include "GraphicsEngine/ImGui/ImGuiLayer.h"
 
-#include "GraphicsEngine/Renderer/Shader.h"
-#include "GraphicsEngine/Renderer/Buffer.h"
-#include "GraphicsEngine/Renderer/VertexArray.h"
-#include "GraphicsEngine/Renderer/OrthographicCamera.h"
-
 namespace GraphicsEngine {
 
-	class GRAPHICS_ENGINE_API Application
+	class Application
 	{
 	public:
 		Application();
@@ -40,14 +35,6 @@ namespace GraphicsEngine {
 		ImGuiLayer* m_ImGuiLayer;
 		bool m_Running = true;
 		LayerStack m_LayerStack;
-
-		std::shared_ptr<Shader> m_Shader;
-		std::shared_ptr<VertexArray> m_VertexArray;
-
-		std::shared_ptr<Shader> m_BlueShader;
-		std::shared_ptr<VertexArray> m_SquareVA;
-
-		OrthographicCamera m_Camera;
 
 	private:
 		static Application* s_Instance;
