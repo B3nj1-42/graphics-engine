@@ -12,6 +12,7 @@
 #include "GraphicsEngine/Renderer/Shader.h"
 #include "GraphicsEngine/Renderer/Buffer.h"
 #include "GraphicsEngine/Renderer/VertexArray.h"
+#include "GraphicsEngine/Renderer/OrthographicCamera.h"
 
 namespace GraphicsEngine {
 
@@ -45,6 +46,8 @@ namespace GraphicsEngine {
 
 		std::shared_ptr<Shader> m_BlueShader;
 		std::shared_ptr<VertexArray> m_SquareVA;
+
+		OrthographicCamera m_Camera;
 
 	private:
 		static Application* s_Instance;
