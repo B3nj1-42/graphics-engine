@@ -143,6 +143,7 @@
     <ClInclude Include="src\GraphicsEngine.h" />
     <ClInclude Include="src\GraphicsEngine\Application.h" />
     <ClInclude Include="src\GraphicsEngine\Core.h" />
+    <ClInclude Include="src\GraphicsEngine\Core\Timestep.h" />
     <ClInclude Include="src\GraphicsEngine\EntryPoint.h" />
     <ClInclude Include="src\GraphicsEngine\Events\ApplicationEvent.h" />
     <ClInclude Include="src\GraphicsEngine\Events\Event.h" />

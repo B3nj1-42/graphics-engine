@@ -1,6 +1,7 @@
 #pragma once
 
 #include "GraphicsEngine/Core.h"
+#include "GraphicsEngine/Core/Timestep.h"
 #include "GraphicsEngine/Events/Event.h"
 
 namespace GraphicsEngine {
@@ -13,7 +14,7 @@ namespace GraphicsEngine {
 
 		virtual void OnAttach() {}
 		virtual void OnDetach() {}
-		virtual void OnUpdate() {}
+		virtual void OnUpdate(Timestep ts) {}
 		virtual void OnImGuiRender() {}
 		virtual void OnEvent(Event& event) {}
 

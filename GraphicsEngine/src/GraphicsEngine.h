@@ -6,6 +6,8 @@
 #include "GraphicsEngine/Layer.h"
 #include "GraphicsEngine/Log.h"
 
+#include "GraphicsEngine/Core/Timestep.h"
+
 #include "GraphicsEngine/Input.h"
 #include "GraphicsEngine/KeyCodes.h"
 #include "GraphicsEngine/MouseButtonCodes.h"

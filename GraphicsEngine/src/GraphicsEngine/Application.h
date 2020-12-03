@@ -7,6 +7,8 @@
 #include "GraphicsEngine/Events/Event.h"
 #include "GraphicsEngine/Events/ApplicationEvent.h"
 
+#include "GraphicsEngine/Core/Timestep.h"
+
 #include "GraphicsEngine/ImGui/ImGuiLayer.h"
 
 namespace GraphicsEngine {
@@ -31,10 +33,12 @@ namespace GraphicsEngine {
 	private:
 		bool OnWindowClosed(WindowCloseEvent& event);
 
+	private:
 		std::unique_ptr<Window> m_Window;
 		ImGuiLayer* m_ImGuiLayer;
 		bool m_Running = true;
 		LayerStack m_LayerStack;
+		float m_LastFrameTime = 0.0f;
 
 	private:
 		static Application* s_Instance;

@@ -127,22 +127,22 @@ public:
 		m_BlueShader.reset(new GraphicsEngine::Shader(blueShaderVertexSource, blueShaderFragmentSource));
 	}
 
-	void OnUpdate() override
+	void OnUpdate(GraphicsEngine::Timestep ts) override
 	{
 		if (GraphicsEngine::Input::IsKeyPressed(GE_KEY_UP) || GraphicsEngine::Input::IsKeyPressed(GE_KEY_W))
-			m_CameraPosition.y -= m_CameraMoveSpeed;
+			m_CameraPosition.y -= m_CameraMoveSpeed * ts;
 		else if (GraphicsEngine::Input::IsKeyPressed(GE_KEY_DOWN) || GraphicsEngine::Input::IsKeyPressed(GE_KEY_S))
-			m_CameraPosition.y += m_CameraMoveSpeed;
+			m_CameraPosition.y += m_CameraMoveSpeed * ts;
 		
 		if (GraphicsEngine::Input::IsKeyPressed(GE_KEY_LEFT) || GraphicsEngine::Input::IsKeyPressed(GE_KEY_A))
-			m_CameraPosition.x -= m_CameraMoveSpeed;
+			m_CameraPosition.x -= m_CameraMoveSpeed * ts;
 		else if (GraphicsEngine::Input::IsKeyPressed(GE_KEY_RIGHT) || GraphicsEngine::Input::IsKeyPressed(GE_KEY_D))
-			m_CameraPosition.x += m_CameraMoveSpeed;
+			m_CameraPosition.x += m_CameraMoveSpeed * ts;
 		
 		if (GraphicsEngine::Input::IsKeyPressed(GE_KEY_Q))
-			m_CameraRotation += m_CameraRotationSpeed;
+			m_CameraRotation += m_CameraRotationSpeed * ts;
 		else if (GraphicsEngine::Input::IsKeyPressed(GE_KEY_E))
-			m_CameraRotation -= m_CameraRotationSpeed;
+			m_CameraRotation -= m_CameraRotationSpeed * ts;
 
 		GraphicsEngine::RenderCommand::SetClearColor({ 0.2f, 0.2f, 0.2f, 1.0f });
 		GraphicsEngine::RenderCommand::Clear();
@@ -176,10 +176,10 @@ private:
 
 	GraphicsEngine::OrthographicCamera m_Camera;
 	glm::vec3 m_CameraPosition;
-	float m_CameraMoveSpeed = 0.05f;
+	float m_CameraMoveSpeed = 1.0f;
 
 	float m_CameraRotation;
-	float m_CameraRotationSpeed = 1.0f;
+	float m_CameraRotationSpeed = 45.0f;
 };
 
 class Sandbox : public GraphicsEngine::Application
