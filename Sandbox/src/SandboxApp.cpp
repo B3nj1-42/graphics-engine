@@ -2,11 +2,13 @@
 
 #include "imgui/imgui.h"
 
+#include <glm/gtc/matrix_transform.hpp>
+
 class ExampleLayer : public GraphicsEngine::Layer
 {
 public:
 	ExampleLayer()
-		: Layer("Example"), m_Camera(-1.6f, 1.6f, -0.9f, 0.9f), m_CameraPosition(0.0f), m_CameraRotation(0.0f)
+		: Layer("Example"), m_Camera(-1.6f, 1.6f, -0.9f, 0.9f), m_CameraPosition(0.0f), m_CameraRotation(0.0f), m_SquarePosition(0.0f)
 	{
 		m_VertexArray.reset(GraphicsEngine::VertexArray::Create());
 
@@ -37,10 +39,10 @@ public:
 
 		float squareVertices[3 * 4] = {
 			//	   x	 y	   z
-			   -0.75f, -0.75f, 0.0f,
-				0.75f, -0.75f, 0.0f,
-				0.75f,  0.75f, 0.0f,
-			   -0.75f,  0.75f, 0.0f
+			   -0.5f, -0.5f, 0.0f,
+				0.5f, -0.5f, 0.0f,
+				0.5f,  0.5f, 0.0f,
+			   -0.5f,  0.5f, 0.0f
 		};
 
 		std::shared_ptr<GraphicsEngine::VertexBuffer> squareVB;
@@ -65,6 +67,7 @@ public:
 			layout(location = 1) in vec4 a_Color;
 
 			uniform mat4 u_ViewProjection;
+			uniform mat4 u_Transform;
 
 			out vec3 v_Position;
 			out vec4 v_Color;
@@ -73,7 +76,7 @@ public:
 			{
 				v_Position = a_Position;
 				v_Color = a_Color;
-				gl_Position = u_ViewProjection * vec4(a_Position, 1.0);
+				gl_Position = u_ViewProjection * u_Transform * vec4(a_Position, 1.0);
 			}
 		)";
 
@@ -94,45 +97,53 @@ public:
 
 		m_Shader.reset(new GraphicsEngine::Shader(vertexSource, fragmentSource));
 
-		std::string blueShaderVertexSource = R"(
+		std::string colorShaderVertexSource = R"(
 			#version 330 core
 
 			layout(location = 0) in vec3 a_Position;
 
 			uniform mat4 u_ViewProjection;
+			uniform mat4 u_Transform;
 
 			out vec3 v_Position;
 
 			void main()
 			{
 				v_Position = a_Position;
-				gl_Position = u_ViewProjection * vec4(a_Position, 1.0);
+				gl_Position = u_ViewProjection * u_Transform * vec4(a_Position, 1.0);
 			}
 		)";
 
-		std::string blueShaderFragmentSource = R"(
+		std::string colorShaderFragmentSource = R"(
 			#version 330 core
 
 			layout(location = 0) out vec4 color;
+
+			uniform vec4 u_Color;
 
 			in vec3 v_Position;
 
 			void main()
 			{
-				color = vec4(0.2, 0.3, 0.8, 1.0);
+				color = u_Color;
 			}
 
 		)";
 
-		m_BlueShader.reset(new GraphicsEngine::Shader(blueShaderVertexSource, blueShaderFragmentSource));
+		m_ColorShader.reset(new GraphicsEngine::Shader(colorShaderVertexSource, colorShaderFragmentSource));
+	}
+
+	float ClampValue(float value, float min, float max)
+	{
+		return value > max ? max : value < min ? min : value;
 	}
 
 	void OnUpdate(GraphicsEngine::Timestep ts) override
 	{
 		if (GraphicsEngine::Input::IsKeyPressed(GE_KEY_UP) || GraphicsEngine::Input::IsKeyPressed(GE_KEY_W))
-			m_CameraPosition.y -= m_CameraMoveSpeed * ts;
-		else if (GraphicsEngine::Input::IsKeyPressed(GE_KEY_DOWN) || GraphicsEngine::Input::IsKeyPressed(GE_KEY_S))
 			m_CameraPosition.y += m_CameraMoveSpeed * ts;
+		else if (GraphicsEngine::Input::IsKeyPressed(GE_KEY_DOWN) || GraphicsEngine::Input::IsKeyPressed(GE_KEY_S))
+			m_CameraPosition.y -= m_CameraMoveSpeed * ts;
 		
 		if (GraphicsEngine::Input::IsKeyPressed(GE_KEY_LEFT) || GraphicsEngine::Input::IsKeyPressed(GE_KEY_A))
 			m_CameraPosition.x -= m_CameraMoveSpeed * ts;
@@ -144,6 +155,16 @@ public:
 		else if (GraphicsEngine::Input::IsKeyPressed(GE_KEY_E))
 			m_CameraRotation -= m_CameraRotationSpeed * ts;
 
+		if (GraphicsEngine::Input::IsKeyPressed(GE_KEY_I))
+			m_SquarePosition.y += m_SquareMoveSpeed * ts;
+		else if (GraphicsEngine::Input::IsKeyPressed(GE_KEY_K))
+			m_SquarePosition.y -= m_SquareMoveSpeed * ts;
+
+		if (GraphicsEngine::Input::IsKeyPressed(GE_KEY_J))
+			m_SquarePosition.x -= m_SquareMoveSpeed * ts;
+		else if (GraphicsEngine::Input::IsKeyPressed(GE_KEY_L))
+			m_SquarePosition.x += m_SquareMoveSpeed * ts;
+
 		GraphicsEngine::RenderCommand::SetClearColor({ 0.2f, 0.2f, 0.2f, 1.0f });
 		GraphicsEngine::RenderCommand::Clear();
 
@@ -152,7 +173,24 @@ public:
 
 		GraphicsEngine::Renderer::BeginScene(m_Camera);
 
-		GraphicsEngine::Renderer::Submit(m_BlueShader, m_SquareVA);
+		glm::mat4 scale = glm::scale(glm::mat4(1.0f), glm::vec3(0.1f));
+
+		for (int y = 0; y < 20; y++)
+		{
+			for (int x = 0; x < 20; x++)
+			{
+				glm::vec3 pos(x * 0.11f + m_SquarePosition.x, y * 0.11f + m_SquarePosition.y, 0.0f);
+				glm::mat4 transform = glm::translate(glm::mat4(1.0f), pos) * scale;
+				
+				float b = ClampValue(0.0f + (float)((x + y) / 40.0f), 0.25f, 0.9f);
+
+				float r = ClampValue(b * 0.65f, 0.0f, 0.8f);
+				float g = ClampValue(b * 0.7f, 0.0f, 0.8f);
+
+				glm::vec4 color(r, g, b, 1.0f);
+				GraphicsEngine::Renderer::Submit(m_ColorShader, m_SquareVA, transform, color);
+			}
+		}
 		GraphicsEngine::Renderer::Submit(m_Shader, m_VertexArray);
 
 		GraphicsEngine::Renderer::EndScene();
@@ -171,15 +209,18 @@ private:
 	std::shared_ptr<GraphicsEngine::Shader> m_Shader;
 	std::shared_ptr<GraphicsEngine::VertexArray> m_VertexArray;
 
-	std::shared_ptr<GraphicsEngine::Shader> m_BlueShader;
+	std::shared_ptr<GraphicsEngine::Shader> m_ColorShader;
 	std::shared_ptr<GraphicsEngine::VertexArray> m_SquareVA;
 
 	GraphicsEngine::OrthographicCamera m_Camera;
 	glm::vec3 m_CameraPosition;
-	float m_CameraMoveSpeed = 1.0f;
+	float m_CameraMoveSpeed = 2.5f;
 
 	float m_CameraRotation;
-	float m_CameraRotationSpeed = 45.0f;
+	float m_CameraRotationSpeed = 90.0;
+	
+	glm::vec3 m_SquarePosition;
+	float m_SquareMoveSpeed = 1.0f;
 };
 
 class Sandbox : public GraphicsEngine::Application
