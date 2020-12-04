@@ -22,7 +22,7 @@ public:
 				0.0f,  0.5f, 0.0f,		0.8f, 0.8f, 0.2f, 1.0f
 		};
 
-		std::shared_ptr<GraphicsEngine::VertexBuffer> vertexBuffer;
+		GraphicsEngine::Ref<GraphicsEngine::VertexBuffer> vertexBuffer;
 		vertexBuffer.reset(GraphicsEngine::VertexBuffer::Create(vertices, sizeof(vertices)));
 
 		GraphicsEngine::BufferLayout layout = {
@@ -34,7 +34,7 @@ public:
 		m_VertexArray->AddVertexBuffer(vertexBuffer);
 
 		uint32_t indices[3] = { 0, 1, 2 };
-		std::shared_ptr<GraphicsEngine::IndexBuffer> indexBuffer;
+		GraphicsEngine::Ref<GraphicsEngine::IndexBuffer> indexBuffer;
 		indexBuffer.reset(GraphicsEngine::IndexBuffer::Create(indices, sizeof(indices) / sizeof(uint32_t)));
 		m_VertexArray->SetIndexBuffer(indexBuffer);
 
@@ -48,7 +48,7 @@ public:
 			   -0.5f,  0.5f, 0.0f
 		};
 
-		std::shared_ptr<GraphicsEngine::VertexBuffer> squareVB;
+		GraphicsEngine::Ref<GraphicsEngine::VertexBuffer> squareVB;
 		squareVB.reset(GraphicsEngine::VertexBuffer::Create(squareVertices, sizeof(squareVertices)));
 
 		squareVB->SetLayout({
@@ -58,7 +58,7 @@ public:
 		m_SquareVA->AddVertexBuffer(squareVB);
 
 		uint32_t squareIndices[6] = { 0, 1, 2, 2, 3, 0 };
-		std::shared_ptr<GraphicsEngine::IndexBuffer> squareIB;
+		GraphicsEngine::Ref<GraphicsEngine::IndexBuffer> squareIB;
 		squareIB.reset(GraphicsEngine::IndexBuffer::Create(squareIndices, sizeof(squareIndices)));
 		m_SquareVA->SetIndexBuffer(squareIB);
 
@@ -203,11 +203,11 @@ public:
 
 
 private:
-	std::shared_ptr<GraphicsEngine::Shader> m_Shader;
-	std::shared_ptr<GraphicsEngine::VertexArray> m_VertexArray;
+	GraphicsEngine::Ref<GraphicsEngine::Shader> m_Shader;
+	GraphicsEngine::Ref<GraphicsEngine::VertexArray> m_VertexArray;
 
-	std::shared_ptr<GraphicsEngine::Shader> m_FlatColorShader;
-	std::shared_ptr<GraphicsEngine::VertexArray> m_SquareVA;
+	GraphicsEngine::Ref<GraphicsEngine::Shader> m_FlatColorShader;
+	GraphicsEngine::Ref<GraphicsEngine::VertexArray> m_SquareVA;
 
 	GraphicsEngine::OrthographicCamera m_Camera;
 	glm::vec3 m_CameraPosition;

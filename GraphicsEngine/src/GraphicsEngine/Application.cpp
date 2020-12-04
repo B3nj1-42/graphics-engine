@@ -7,8 +7,6 @@
 
 namespace GraphicsEngine {
 
-#define BIND_EVENT_FN(x) std::bind(&Application::x, this, std::placeholders::_1)
-
 	Application* Application::s_Instance = nullptr;
 
 	Application::Application()
@@ -16,8 +14,8 @@ namespace GraphicsEngine {
 		GE_CORE_ASSERT(!s_Instance, "Application already exists!");
 		s_Instance = this;
 
-		m_Window = std::unique_ptr<Window>(Window::Create());
-		m_Window->SetEventCallback(BIND_EVENT_FN(OnEvent));
+		m_Window = Scope<Window>(Window::Create());
+		m_Window->SetEventCallback(GE_BIND_EVENT_FN(OnEvent));
 
 		m_ImGuiLayer = new ImGuiLayer();
 		PushOverlay(m_ImGuiLayer);
@@ -42,7 +40,7 @@ namespace GraphicsEngine {
 	void Application::OnEvent(Event& event)
 	{
 		EventDispatcher dispatcher(event);
-		dispatcher.Dispatch<WindowCloseEvent>(BIND_EVENT_FN(OnWindowClosed));
+		dispatcher.Dispatch<WindowCloseEvent>(GE_BIND_EVENT_FN(OnWindowClosed));
 
 		for (auto iterator = m_LayerStack.end(); iterator != m_LayerStack.begin(); )
 		{
