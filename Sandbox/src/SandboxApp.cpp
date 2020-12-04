@@ -1,8 +1,11 @@
 #include <GraphicsEngine.h>
 
+#include <Platform/OpenGL/OpenGLShader.h>
+
 #include "imgui/imgui.h"
 
 #include <glm/gtc/matrix_transform.hpp>
+#include <glm/gtc/type_ptr.hpp>
 
 class ExampleLayer : public GraphicsEngine::Layer
 {
@@ -95,9 +98,9 @@ public:
 
 		)";
 
-		m_Shader.reset(new GraphicsEngine::Shader(vertexSource, fragmentSource));
+		m_Shader.reset(GraphicsEngine::Shader::Create(vertexSource, fragmentSource));
 
-		std::string colorShaderVertexSource = R"(
+		std::string flatColorShaderVertexSource = R"(
 			#version 330 core
 
 			layout(location = 0) in vec3 a_Position;
@@ -114,28 +117,23 @@ public:
 			}
 		)";
 
-		std::string colorShaderFragmentSource = R"(
+		std::string flatColorShaderFragmentSource = R"(
 			#version 330 core
 
 			layout(location = 0) out vec4 color;
 
-			uniform vec4 u_Color;
+			uniform vec3 u_Color;
 
 			in vec3 v_Position;
 
 			void main()
 			{
-				color = u_Color;
+				color = vec4(u_Color, 1.0);
 			}
 
 		)";
 
-		m_ColorShader.reset(new GraphicsEngine::Shader(colorShaderVertexSource, colorShaderFragmentSource));
-	}
-
-	float ClampValue(float value, float min, float max)
-	{
-		return value > max ? max : value < min ? min : value;
+		m_FlatColorShader.reset(GraphicsEngine::Shader::Create(flatColorShaderVertexSource, flatColorShaderFragmentSource));
 	}
 
 	void OnUpdate(GraphicsEngine::Timestep ts) override
@@ -175,20 +173,16 @@ public:
 
 		glm::mat4 scale = glm::scale(glm::mat4(1.0f), glm::vec3(0.1f));
 
+		std::dynamic_pointer_cast<GraphicsEngine::OpenGLShader>(m_FlatColorShader)->Bind();
+		std::dynamic_pointer_cast<GraphicsEngine::OpenGLShader>(m_FlatColorShader)->UploadUniformFloat3("u_Color", m_SquareColor);
+
 		for (int y = 0; y < 20; y++)
 		{
 			for (int x = 0; x < 20; x++)
 			{
 				glm::vec3 pos(x * 0.11f + m_SquarePosition.x, y * 0.11f + m_SquarePosition.y, 0.0f);
 				glm::mat4 transform = glm::translate(glm::mat4(1.0f), pos) * scale;
-				
-				float b = ClampValue(0.0f + (float)((x + y) / 40.0f), 0.25f, 0.9f);
-
-				float r = ClampValue(b * 0.65f, 0.0f, 0.8f);
-				float g = ClampValue(b * 0.7f, 0.0f, 0.8f);
-
-				glm::vec4 color(r, g, b, 1.0f);
-				GraphicsEngine::Renderer::Submit(m_ColorShader, m_SquareVA, transform, color);
+				GraphicsEngine::Renderer::Submit(m_FlatColorShader, m_SquareVA, transform);
 			}
 		}
 		GraphicsEngine::Renderer::Submit(m_Shader, m_VertexArray);
@@ -198,6 +192,9 @@ public:
 
 	virtual void OnImGuiRender() override
 	{
+		ImGui::Begin("Settings");
+		ImGui::ColorEdit3("Square Color", glm::value_ptr(m_SquareColor));
+		ImGui::End();
 	}
 
 	void OnEvent(GraphicsEngine::Event& event) override
@@ -209,7 +206,7 @@ private:
 	std::shared_ptr<GraphicsEngine::Shader> m_Shader;
 	std::shared_ptr<GraphicsEngine::VertexArray> m_VertexArray;
 
-	std::shared_ptr<GraphicsEngine::Shader> m_ColorShader;
+	std::shared_ptr<GraphicsEngine::Shader> m_FlatColorShader;
 	std::shared_ptr<GraphicsEngine::VertexArray> m_SquareVA;
 
 	GraphicsEngine::OrthographicCamera m_Camera;
@@ -221,6 +218,8 @@ private:
 	
 	glm::vec3 m_SquarePosition;
 	float m_SquareMoveSpeed = 1.0f;
+
+	glm::vec3 m_SquareColor = { 0.2f, 0.3f, 0.8f };
 };
 
 class Sandbox : public GraphicsEngine::Application
